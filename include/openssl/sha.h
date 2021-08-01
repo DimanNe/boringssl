@@ -100,6 +100,9 @@ struct sha_state_st {
 #if defined(OPENSSL_WINDOWS)
   uint32_t h[5];
 #else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
   // wpa_supplicant accesses |h0|..|h4| so we must support those names
   // for compatibility with it until it can be updated.
   union {
@@ -112,6 +115,7 @@ struct sha_state_st {
       uint32_t h4;
     };
   };
+#pragma clang diagnostic pop
 #endif
   uint32_t Nl, Nh;
   uint8_t data[SHA_CBLOCK];

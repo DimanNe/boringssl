@@ -569,7 +569,7 @@ include_directories(third_party/googletest/include)
 
 # Declare a dummy target to build all unit tests. Test targets should inject
 # themselves as dependencies next to the target definition.
-add_custom_target(all_tests)
+# add_custom_target(all_tests)
 
 # On Windows, CRYPTO_TEST_DATA is too long to fit in command-line limits.
 # TODO(davidben): CMake 3.12 has a list(JOIN) command. Use that when we've

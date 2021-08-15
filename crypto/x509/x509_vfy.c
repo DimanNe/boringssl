@@ -1976,9 +1976,9 @@ int X509_cmp_time(const ASN1_TIME *ctm, time_t *cmp_time)
     return ret;
 }
 
-ASN1_TIME *X509_gmtime_adj(ASN1_TIME *s, long adj)
+ASN1_TIME *X509_gmtime_adj(ASN1_TIME *s, long offset_sec)
 {
-    return X509_time_adj(s, adj, NULL);
+    return X509_time_adj(s, offset_sec, NULL);
 }
 
 ASN1_TIME *X509_time_adj(ASN1_TIME *s, long offset_sec, time_t *in_tm)
@@ -1991,17 +1991,12 @@ ASN1_TIME *X509_time_adj_ex(ASN1_TIME *s,
 {
     time_t t = 0;
 
-    if (in_tm)
+    if (in_tm) {
         t = *in_tm;
-    else
+    } else {
         time(&t);
-
-    if (s && !(s->flags & ASN1_STRING_FLAG_MSTRING)) {
-        if (s->type == V_ASN1_UTCTIME)
-            return ASN1_UTCTIME_adj(s, t, offset_day, offset_sec);
-        if (s->type == V_ASN1_GENERALIZEDTIME)
-            return ASN1_GENERALIZEDTIME_adj(s, t, offset_day, offset_sec);
     }
+
     return ASN1_TIME_adj(s, t, offset_day, offset_sec);
 }
 
